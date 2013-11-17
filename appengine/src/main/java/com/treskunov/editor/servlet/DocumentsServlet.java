@@ -30,6 +30,7 @@ public class DocumentsServlet extends HttpServlet {
         Iterable<CollaborativeDocument> existingDocuments = documentProvider.getAllDocuments();
         req.setAttribute("documents", existingDocuments);
         req.setAttribute("userEmail", UserServiceFactory.getUserService().getCurrentUser().getEmail());
+        resp.setContentType(ContentType.TEXT_HTML);
         req.getRequestDispatcher("/views/documents.jsp").include(req, resp);
     }
 

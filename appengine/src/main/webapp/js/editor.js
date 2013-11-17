@@ -3,7 +3,7 @@ var initEditor = function (documentId, clientId, view) {
     var version;
     var sentOperation = null;
     var pendingOperations = [];
-    var foreignOperationsQueue = [];
+    var incomingOperationsQueue = [];
 
     var isMine = function (operation) {
         return operation.initiator === clientId;
@@ -13,29 +13,29 @@ var initEditor = function (documentId, clientId, view) {
         var r = new XMLHttpRequest();
         r.open("POST", "/document/update", true);
         r.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        r.send("op=" + operation.op +
-            "&position=" + operation.position +
-            "&value=" + operation.value +
-            "&documentId=" + documentId +
-            "&initiator=" + clientId +
-            "&version=" + version);
+        var message =
+            "op=" + operation.op +
+                "&position=" + operation.position +
+                "&value=" + operation.value +
+                "&documentId=" + documentId +
+                "&initiator=" + clientId +
+                "&version=" + version;
+        console.log("Sending operation " + message);
+        r.send(message);
         r.onreadystatechange = function () {
             if (r.readyState == 4) {
                 if (r.status == 204) {
-                    console.log("Operation was sent " + JSON.stringify(operation));
+                    console.log("Operation was sent " + message);
                 } else {
-                    console.error("Error during sending operation: " + JSON.stringify(operation));
+                    console.error("Error during sending operation: " + message);
                 }
             }
         };
     }
 
-    var sendPendingOperation = function () {
-        if (sentOperation !== null) {
-            throw {
-                name: 'AlgorithmError',
-                message: 'Attempt to send more than one operation to server'
-            };
+    var trySendPendingOperation = function () {
+        if (incomingOperationsQueue.length > 0 && sentOperation !== null) {
+            return;
         }
         if (pendingOperations.length > 0) {
             sentOperation = pendingOperations[0]
@@ -64,27 +64,27 @@ var initEditor = function (documentId, clientId, view) {
         view.applyOperation(operationToApply);
     }
 
-    var processForeignOperation = function () {
-        if (!view.isBlocked() && foreignOperationsQueue.length !== 0) {
-            var operation = foreignOperationsQueue[0];
-            foreignOperationsQueue.splice(0, 1);
+    var processIncomingOperation = function () {
+        if (!view.isBlocked() && incomingOperationsQueue.length !== 0) {
+            var operation = incomingOperationsQueue[0];
+            incomingOperationsQueue.splice(0, 1);
             version++;
-            applyForeignOperation(operation);
+            console.log('Version was incremented ' + version)
+            if (isMine(operation)) {
+                sentOperation = null;
+            } else {
+                applyForeignOperation(operation);
+            }
+            trySendPendingOperation();
         }
-        setTimeout(processForeignOperation, 100);
+        setTimeout(processIncomingOperation, 100);
     }
 
-    setTimeout(processForeignOperation, 100);
+    setTimeout(processIncomingOperation, 100);
 
     var onIncomingOperation = function (operation) {
         console.log("Operation was received " + JSON.stringify(operation))
-        if (isMine(operation)) {
-            version++;
-            sentOperation = null;
-            sendPendingOperation();
-        } else {
-            foreignOperationsQueue.push(operation);
-        }
+        incomingOperationsQueue.push(operation);
     }
 
     var initEditor = function () {
@@ -124,7 +124,7 @@ var initEditor = function (documentId, clientId, view) {
                 view.showDocumentIsSaving()
                 pendingOperations = pendingOperations.concat(operations)
                 if (sentOperation === null) {
-                    sendPendingOperation();
+                    trySendPendingOperation();
                 }
             }
         }

@@ -66,7 +66,10 @@ var transformer = function () {
     return {
 
         transform: function (o1, o2) {
-            return transformationMatrix[o1.op + ',' + o2.op].apply(null, [o1, o2]);
+            console.log("Transforming " + JSON.stringify(o1) + " | " + JSON.stringify(o2))
+            var transformed = transformationMatrix[o1.op + ',' + o2.op].apply(null, [o1, o2]);
+            console.log("Transformed " + JSON.stringify(transformed))
+            return  transformed;
         }
     }
 }();

@@ -7,8 +7,6 @@ import com.treskunov.editor.operation.action.DeleteAction;
 import com.treskunov.editor.operation.action.InsertAction;
 import com.treskunov.editor.operation.action.NoOpAction;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,8 +15,6 @@ import java.util.Map;
  * {@link Collaborator} implementation for App Engine Channel API.
  */
 public class ChannelApiCollaborator implements Collaborator {
-
-    private static final Logger logger = LoggerFactory.getLogger(ChannelApiCollaborator.class);
 
     private final Channel channel;
 
@@ -29,7 +25,6 @@ public class ChannelApiCollaborator implements Collaborator {
     @Override
     public void onOperationApplied(Operation operation) {
         String message = serialize(operation);
-        logger.info("Broadcasting operation {}", operation);
         channel.sendMessage(message);
     }
 

@@ -10,6 +10,7 @@ import net.jcip.annotations.ThreadSafe;
 import javax.inject.Inject;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Implementation of {@link CollaborativeDocumentRepository} that stores document in
@@ -23,15 +24,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @ThreadSafe
 public class InMemoryCollaborativeDocumentRepository implements CollaborativeDocumentRepository {
 
-    private Map<String, CollaborativeDocument> documents = new ConcurrentHashMap<>();
+    private AtomicInteger idSequence = new AtomicInteger(1);
 
-    /**
-     * TODO get rid of document initialization here
-     */
+    private Map<String, CollaborativeDocument> documents = new ConcurrentHashMap<>();
+    private OperationRebaser operationRebaser;
+
     @Inject
     public InMemoryCollaborativeDocumentRepository(OperationRebaser operationRebaser) {
-        DocumentContent content = new StringDocumentContent();
-        documents.put("document1", new SynchronizedDocument("id1", "Hello!", content, operationRebaser));
+        this.operationRebaser = operationRebaser;
     }
 
     @Override
@@ -40,8 +40,25 @@ public class InMemoryCollaborativeDocumentRepository implements CollaborativeDoc
     }
 
     @Override
-    public CollaborativeDocument save(String documentId, CollaborativeDocument document) {
-        documents.put(documentId, document);
+    public Iterable<CollaborativeDocument> getAllDocuments() {
+        return documents.values();
+    }
+
+    @Override
+    public CollaborativeDocument create(String title) {
+        String id = generateId();
+        SynchronizedDocument document = createDocument(id, title);
+        documents.put(id, document);
         return document;
+    }
+
+    private String generateId() {
+        int currentId = idSequence.getAndIncrement();
+        return String.valueOf(currentId);
+    }
+
+    private SynchronizedDocument createDocument(String id, String title) {
+        DocumentContent content = new StringDocumentContent();
+        return new SynchronizedDocument(id, title, content, operationRebaser);
     }
 }

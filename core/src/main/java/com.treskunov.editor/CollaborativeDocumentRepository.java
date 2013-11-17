@@ -9,10 +9,12 @@ public interface CollaborativeDocumentRepository {
     CollaborativeDocument getById(String documentId);
 
     /**
-     * Returns saved version of document.
-     * <p/>
-     * After saving returned instance should be used by clients.
-     * Note that this instance can be not the same as document passed in parameters.
+     * Get all existing documents or empty iterable if there is no documents yet.
      */
-    CollaborativeDocument save(String documentId, CollaborativeDocument document);
+    Iterable<CollaborativeDocument> getAllDocuments();
+
+    /**
+     * Returns created document.
+     */
+    CollaborativeDocument create(String title);
 }

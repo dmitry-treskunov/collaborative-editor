@@ -72,4 +72,8 @@ public class RequestAttributeMatcher<T> extends TypeSafeDiagnosingMatcher<HttpSe
     public static Matcher<HttpServletRequest> hasNamedAttribute(String name, String attribute) {
         return new RequestAttributeMatcher<>(name, CoreMatchers.equalTo(attribute));
     }
+
+    public static <T> Matcher<HttpServletRequest> hasNamedAttribute(String name, Matcher<T> matcher) {
+        return new RequestAttributeMatcher<>(name, matcher);
+    }
 }

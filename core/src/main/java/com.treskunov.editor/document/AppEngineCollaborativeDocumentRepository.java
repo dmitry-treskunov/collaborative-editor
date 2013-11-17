@@ -5,6 +5,8 @@ import com.treskunov.editor.CollaborativeDocumentRepository;
 import com.treskunov.editor.Collaborator;
 import com.treskunov.editor.Operation;
 
+import java.util.List;
+
 /**
  * This is a sketch.
  */
@@ -17,10 +19,15 @@ public class AppEngineCollaborativeDocumentRepository implements CollaborativeDo
     }
 
     @Override
-    public CollaborativeDocument save(String documentId, CollaborativeDocument document) {
-        CollaborativeDocumentProxy proxy = new CollaborativeDocumentProxy(document);
-        //save proxy to db
-        return proxy;
+    public List<CollaborativeDocument> getAllDocuments() {
+        //fetch all documents from db and return them
+        return null;
+    }
+
+    @Override
+    public CollaborativeDocument create(String title) {
+        //create document and wrap it with CollaborativeDocumentProxy
+        return null;
     }
 
     private static class CollaborativeDocumentProxy implements CollaborativeDocument {

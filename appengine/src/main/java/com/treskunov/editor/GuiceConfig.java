@@ -20,7 +20,14 @@ public class GuiceConfig extends GuiceServletContextListener {
 
     @Override
     protected Injector getInjector() {
-        return Guice.createInjector(new CollaborativeEditorModule(), new ServletConfig());
+        Injector injector = Guice.createInjector(new CollaborativeEditorModule(), new ServletConfig());
+        createDocumentForTest(injector);
+        return injector;
+    }
+
+    private void createDocumentForTest(Injector injector) {
+        CollaborativeDocumentRepository repository = injector.getInstance(CollaborativeDocumentRepository.class);
+        repository.create("Hello world!");
     }
 
     private static class CollaborativeEditorModule extends AbstractModule {

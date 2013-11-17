@@ -5,6 +5,7 @@ import com.google.inject.servlet.ServletModule;
 public class ServletConfig extends ServletModule {
     @Override
     protected void configureServlets() {
+        serve("/").with(DocumentsServlet.class);
         serve("/editor").with(DocumentEditorServlet.class);
         serve("/channel/token").with(ChannelTokenServlet.class);
         serve("/document").with(GetDocumentServlet.class);

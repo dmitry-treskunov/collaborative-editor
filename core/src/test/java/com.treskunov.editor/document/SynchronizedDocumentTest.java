@@ -41,7 +41,7 @@ public class SynchronizedDocumentTest {
 
     @Test
     public void shouldSaveIdPassedInConstructor() throws Exception {
-        assertThat(document.getTitle(), is(documentId));
+        assertThat(document.getId(), is(documentId));
     }
 
     @Test

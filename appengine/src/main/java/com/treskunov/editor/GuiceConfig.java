@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
+import com.google.inject.servlet.ServletModule;
 import com.treskunov.editor.channel.ChannelApiCollaboratorsProvider;
 import com.treskunov.editor.channel.InMemoryChannelApiCollaboratorsProvider;
 import com.treskunov.editor.document.InMemoryCollaborativeDocumentRepository;
@@ -11,11 +12,8 @@ import com.treskunov.editor.operation.ActionTransformer;
 import com.treskunov.editor.operation.OperationRebaser;
 import com.treskunov.editor.operation.SimpleActionTransformer;
 import com.treskunov.editor.operation.TransformingOperationRebaser;
-import com.treskunov.editor.servlet.FormOperationParser;
-import com.treskunov.editor.servlet.OperationParser;
-import com.treskunov.editor.servlet.ServletConfig;
+import com.treskunov.editor.servlet.*;
 
-//TODO read about Guice configuration
 public class GuiceConfig extends GuiceServletContextListener {
 
     @Override
@@ -25,6 +23,9 @@ public class GuiceConfig extends GuiceServletContextListener {
         return injector;
     }
 
+    /**
+     * Initialize application with one document.
+     */
     private void createDocumentForTest(Injector injector) {
         CollaborativeDocumentRepository repository = injector.getInstance(CollaborativeDocumentRepository.class);
         repository.create("Hello world!");
@@ -42,4 +43,14 @@ public class GuiceConfig extends GuiceServletContextListener {
         }
     }
 
+    public static class ServletConfig extends ServletModule {
+        @Override
+        protected void configureServlets() {
+            serve("/").with(DocumentsServlet.class);
+            serve("/editor").with(DocumentEditorServlet.class);
+            serve("/channel/token").with(ChannelTokenServlet.class);
+            serve("/document").with(GetDocumentServlet.class);
+            serve("/document/update").with(UpdateOperationServlet.class);
+        }
+    }
 }

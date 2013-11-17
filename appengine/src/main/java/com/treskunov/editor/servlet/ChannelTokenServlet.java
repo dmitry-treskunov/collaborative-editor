@@ -47,7 +47,7 @@ public class ChannelTokenServlet extends HttpServlet {
     }
 
     private void respondWithToken(HttpServletResponse resp, String token) throws IOException {
-        resp.setContentType("text/plain");
+        resp.setContentType(ContentType.TEXT_PLAIN);
         resp.getWriter().print(token);
     }
 }

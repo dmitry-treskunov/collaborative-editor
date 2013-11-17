@@ -32,8 +32,6 @@ import java.util.Map;
 @Singleton
 public class GetDocumentServlet extends HttpServlet {
 
-    private static final String JSON_CONTENT_TYPE = "application/json";
-
     private CollaborativeDocumentProvider documentProvider;
     private ChannelApiCollaboratorsProvider collaboratorsProvider;
 
@@ -77,7 +75,7 @@ public class GetDocumentServlet extends HttpServlet {
     }
 
     private void putDocumentToResponse(HttpServletResponse resp, CollaborativeDocument document) throws IOException {
-        resp.setContentType(JSON_CONTENT_TYPE);
+        resp.setContentType(ContentType.APPLICATION_JSON);
         Map<String, Object> responseContent = new LinkedHashMap<>();
         responseContent.put("documentTitle", document.getTitle());
         responseContent.put("documentVersion", document.getVersion());

@@ -36,11 +36,7 @@ public class ResponseContentTypeMatcher extends TypeSafeDiagnosingMatcher<HttpSe
                 appendText("'");
     }
 
-    public static Matcher<HttpServletResponse> hasJsonContentType() {
-        return new ResponseContentTypeMatcher("application/json");
-    }
-
-    public static Matcher<HttpServletResponse> hasPlainTextContentType() {
-        return new ResponseContentTypeMatcher("text/plain");
+    public static Matcher<HttpServletResponse> hasContentType(String expectedContentType) {
+        return new ResponseContentTypeMatcher(expectedContentType);
     }
 }

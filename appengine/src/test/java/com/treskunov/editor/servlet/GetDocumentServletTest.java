@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static com.treskunov.editor.builder.RequestBuilder.aRequest;
-import static com.treskunov.editor.matcher.ResponseContentTypeMatcher.hasJsonContentType;
+import static com.treskunov.editor.matcher.ResponseContentTypeMatcher.hasContentType;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -53,7 +53,7 @@ public class GetDocumentServletTest {
         HttpServletResponse response = new MockHttpServletResponse();
         servlet.doGet(request, response);
 
-        assertThat(response, hasJsonContentType());
+        assertThat(response, hasContentType(ContentType.APPLICATION_JSON));
     }
 
     @Test

@@ -13,7 +13,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.treskunov.editor.matcher.ResponseContentTypeMatcher.hasPlainTextContentType;
+import static com.treskunov.editor.matcher.ResponseContentTypeMatcher.hasContentType;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -46,7 +46,7 @@ public class ChannelTokenServletTest {
         channelTokenServlet.doGet(request, response);
 
         assertThat(response.getContentAsString(), is("token#1"));
-        assertThat(response, hasPlainTextContentType());
+        assertThat(response, hasContentType(ContentType.TEXT_PLAIN));
         //TODO probably, it will be better to create Hamcrest matcher here
     }
 

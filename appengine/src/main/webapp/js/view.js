@@ -119,6 +119,9 @@ var initView = function () {
             document.getElementById('status').innerHTML = 'Saving...';
         },
 
+        /**
+         * TODO probably, it will be better to encapsulate this behaviour in operations.js
+         */
         applyOperation: function (operation) {
             if (operation.op === 'insert') {
                 applyInsert(operation);

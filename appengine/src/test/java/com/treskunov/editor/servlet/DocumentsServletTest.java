@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DocumentsServletTest {
+public class DocumentsServletTest extends UserDependentTest {
 
     @Mock
     private CollaborativeDocumentProvider documentProvider;
@@ -50,6 +50,16 @@ public class DocumentsServletTest {
         documentsListServlet.doGet(request, new MockHttpServletResponse());
 
         assertThat(request, hasNamedAttribute("documents", hasItems(firstExistingDocument, secondExistingDocument)));
+    }
+
+    @Test
+    public void shouldPutUserNameToRequestAttributesOnGetRequest() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
+        when(documentProvider.getAllDocuments()).thenReturn(asList(firstExistingDocument, secondExistingDocument));
+
+        documentsListServlet.doGet(request, new MockHttpServletResponse());
+
+        assertThat(request, hasNamedAttribute("userEmail", getCurrentUserEmail()));
     }
 
     @Test

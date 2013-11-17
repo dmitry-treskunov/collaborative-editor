@@ -1,5 +1,6 @@
 package com.treskunov.editor.servlet;
 
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.treskunov.editor.CollaborativeDocument;
@@ -28,6 +29,7 @@ public class DocumentsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Iterable<CollaborativeDocument> existingDocuments = documentProvider.getAllDocuments();
         req.setAttribute("documents", existingDocuments);
+        req.setAttribute("userEmail", UserServiceFactory.getUserService().getCurrentUser().getEmail());
         req.getRequestDispatcher("/views/documents.jsp").include(req, resp);
     }
 

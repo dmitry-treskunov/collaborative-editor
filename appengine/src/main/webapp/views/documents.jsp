@@ -10,7 +10,11 @@
 
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading">Please, select any document or create new one:</div>
+        <div class="panel-heading">
+            <p id="title" class="col-md-4">Please, select any document or create new one:</p>
+
+            <p id="status" class="text-right small text-muted">Hello, ${userEmail}</p>
+        </div>
         <div class="panel-body">
             <ul class="list-group">
                 <c:forEach var="document" items="${documents}">

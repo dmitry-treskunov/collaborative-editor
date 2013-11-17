@@ -19,13 +19,14 @@ public class SynchronizedDocumentTest {
     private DocumentContent documentContent;
     private SynchronizedDocument document;
     private String documentTitle = "Hello World Document";
+    private String documentId = "id1";
     private OperationRebaser operationRebaser;
 
     @Before
     public void setUp() throws Exception {
         documentContent = mock(DocumentContent.class);
         operationRebaser = mock(OperationRebaser.class);
-        document = new SynchronizedDocument(documentContent, documentTitle, operationRebaser);
+        document = new SynchronizedDocument(documentId, documentTitle, documentContent, operationRebaser);
     }
 
     @Test
@@ -36,6 +37,11 @@ public class SynchronizedDocumentTest {
     @Test
     public void shouldSaveTitlePassedInConstructor() throws Exception {
         assertThat(document.getTitle(), is(documentTitle));
+    }
+
+    @Test
+    public void shouldSaveIdPassedInConstructor() throws Exception {
+        assertThat(document.getTitle(), is(documentId));
     }
 
     @Test

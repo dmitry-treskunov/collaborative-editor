@@ -5,4 +5,6 @@ public interface Document {
     String asText();
 
     String getTitle();
+
+    String getId();
 }

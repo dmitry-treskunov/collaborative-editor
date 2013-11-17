@@ -31,7 +31,7 @@ public class InMemoryCollaborativeDocumentRepository implements CollaborativeDoc
     @Inject
     public InMemoryCollaborativeDocumentRepository(OperationRebaser operationRebaser) {
         DocumentContent content = new StringDocumentContent();
-        documents.put("document1", new SynchronizedDocument(content, "Hello!", operationRebaser));
+        documents.put("document1", new SynchronizedDocument("id1", "Hello!", content, operationRebaser));
     }
 
     @Override

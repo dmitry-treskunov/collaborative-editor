@@ -53,6 +53,12 @@ public class ProducersConsumerDocument extends AbstractCollaborativeDocument {
         return null;
     }
 
+    @Override
+    public String getId() {
+        //return id here
+        return null;
+    }
+
     private class Worker implements Runnable {
 
         @Override

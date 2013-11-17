@@ -12,8 +12,8 @@ import java.util.List;
 /**
  * Simplest implementation of {@link com.treskunov.editor.CollaborativeDocument}:
  * <ul>
- *     <li>All methods are synchronized (can be cause of high contention)</li>
- *     <li>All operations are applied eagerly</li>
+ * <li>All methods are synchronized (can be cause of high contention)</li>
+ * <li>All operations are applied eagerly</li>
  * </ul>
  */
 @ThreadSafe
@@ -27,8 +27,10 @@ public class SynchronizedDocument extends AbstractCollaborativeDocument {
     private List<Operation> appliedOperations = new ArrayList<>();
     private OperationRebaser operationRebaser;
     private final String title;
+    private final String id;
 
-    public SynchronizedDocument(DocumentContent content, String title, OperationRebaser operationRebaser) {
+    public SynchronizedDocument(String id, String title, DocumentContent content, OperationRebaser operationRebaser) {
+        this.id = id;
         this.content = content;
         this.title = title;
         this.operationRebaser = operationRebaser;
@@ -44,6 +46,11 @@ public class SynchronizedDocument extends AbstractCollaborativeDocument {
     @Override
     public synchronized String asText() {
         return content.asText();
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override

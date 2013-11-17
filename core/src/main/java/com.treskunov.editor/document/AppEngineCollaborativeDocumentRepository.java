@@ -5,13 +5,11 @@ import com.treskunov.editor.CollaborativeDocumentRepository;
 import com.treskunov.editor.Collaborator;
 import com.treskunov.editor.Operation;
 
-import java.util.Map;
-
 /**
  * This is a sketch.
  */
 public class AppEngineCollaborativeDocumentRepository implements CollaborativeDocumentRepository {
-    
+
     @Override
     public CollaborativeDocument getById(String documentId) {
         //fetch document from db and return it
@@ -24,7 +22,7 @@ public class AppEngineCollaborativeDocumentRepository implements CollaborativeDo
         //save proxy to db
         return proxy;
     }
-    
+
     private static class CollaborativeDocumentProxy implements CollaborativeDocument {
 
         private final CollaborativeDocument target;
@@ -58,6 +56,11 @@ public class AppEngineCollaborativeDocumentRepository implements CollaborativeDo
         @Override
         public String getTitle() {
             return target.getTitle();
+        }
+
+        @Override
+        public String getId() {
+            return target.getId();
         }
     }
 }

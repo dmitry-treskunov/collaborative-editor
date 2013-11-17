@@ -34,7 +34,7 @@ var initEditor = function (documentId, clientId, view) {
     }
 
     var trySendPendingOperation = function () {
-        if (incomingOperationsQueue.length > 0 && sentOperation !== null) {
+        if (incomingOperationsQueue.length > 0 || sentOperation !== null) {
             return;
         }
         if (pendingOperations.length > 0) {

@@ -24,7 +24,7 @@
                 </c:forEach>
             </ul>
 
-            <form class="form-inline" role="form" method="POST">
+            <form class="form-inline" role="form" method="POST" accept-charset="utf-8">
                 <div class="form-group">
                     <input name="title" class="form-control" placeholder="Title">
                 </div>

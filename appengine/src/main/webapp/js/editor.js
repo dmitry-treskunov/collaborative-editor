@@ -3,6 +3,7 @@ var initEditor = function (documentId, clientId, view) {
     var version;
     var sentOperation = null;
     var pendingOperations = [];
+    var foreignOperationsQueue = [];
 
     var isMine = function (operation) {
         return operation.initiator === clientId;
@@ -63,14 +64,26 @@ var initEditor = function (documentId, clientId, view) {
         view.applyOperation(operationToApply);
     }
 
+    var processForeignOperation = function () {
+        if (!view.isBlocked() && foreignOperationsQueue.length !== 0) {
+            var operation = foreignOperationsQueue[0];
+            foreignOperationsQueue.splice(0, 1);
+            version++;
+            applyForeignOperation(operation);
+        }
+        setTimeout(processForeignOperation, 100);
+    }
+
+    setTimeout(processForeignOperation, 100);
+
     var onIncomingOperation = function (operation) {
         console.log("Operation was received " + JSON.stringify(operation))
-        version++;
         if (isMine(operation)) {
+            version++;
             sentOperation = null;
             sendPendingOperation();
         } else {
-            applyForeignOperation(operation);
+            foreignOperationsQueue.push(operation);
         }
     }
 

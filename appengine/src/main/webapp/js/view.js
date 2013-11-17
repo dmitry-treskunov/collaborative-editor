@@ -3,13 +3,16 @@ var initView = function () {
     var presenter;
     var content;
     var textArea = document.getElementById('editor');
+    var blocked = false;
 
     /**
      * TODO refactor it!
      */
     var calculateOperations = function () {
-        var oldval = content.trim();
-        var newval = textArea.value.trim();
+        var oldval = content;
+        var newval = textArea.value;
+        console.log('Calculating diff newval: ' + newval)
+        console.log('Calculating diff oldval: ' + oldval)
 
         var commonEnd, commonStart;
         if (oldval === newval) return [];
@@ -37,9 +40,18 @@ var initView = function () {
         return calculatedOperations;
     }
 
+    textArea.onkeydown = function () {
+        console.log('Block is installed');
+        blocked = true;
+    }
+
     textArea.onkeyup = function () {
+        console.log("Key press on position " + JSON.stringify(getUserSelection()))
         var operations = calculateOperations();
+        console.log('Generated operations ' + JSON.stringify(operations))
         presenter.onUserOperations(operations);
+        blocked = false;
+        console.log('Block is released')
     }
 
     var getUserSelection = function () {
@@ -50,15 +62,18 @@ var initView = function () {
     }
 
     var setUserSelection = function (userSelection) {
+        console.log('Set new selection ' + JSON.stringify(userSelection))
         textArea.selectionStart = userSelection.start;
         textArea.selectionEnd = userSelection.end;
     };
 
     var applyInsert = function (operation) {
-        content = content.substr(0, operation.position) + operation.value + content.substr(operation.position);
+        console.log("Applying inserting " + JSON.stringify(operation))
         var userSelection = getUserSelection();
+        content = content.substr(0, operation.position) + operation.value + content.substr(operation.position);
         textArea.value = content;
         if (operation.position <= userSelection.start) {
+            console.log('Adjust cursor + 1');
             userSelection.start = userSelection.start + 1;
             userSelection.end = userSelection.end + 1;
         }
@@ -66,8 +81,9 @@ var initView = function () {
     };
 
     var applyDelete = function (operation) {
-        content = content.substr(0, operation.position) + content.substr(operation.position + 1);
+        console.log("Applying deletion " + JSON.stringify(operation))
         var userSelection = getUserSelection();
+        content = content.substr(0, operation.position) + content.substr(operation.position + 1);
         textArea.value = content;
         if (operation.position <= userSelection.start) {
             userSelection.start = userSelection.start - 1;
@@ -77,6 +93,10 @@ var initView = function () {
     };
 
     return {
+
+        isBlocked: function () {
+            return blocked;
+        },
 
         initPresenter: function (p) {
             presenter = p

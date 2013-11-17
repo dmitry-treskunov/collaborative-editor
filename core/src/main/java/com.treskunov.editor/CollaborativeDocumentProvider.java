@@ -1,9 +1,9 @@
 package com.treskunov.editor;
 
-public interface CollaborativeDocumentRepository {
+public interface CollaborativeDocumentProvider {
 
     /**
-     * This repository provides collection-like interface so
+     * This method provides collection-like interface so
      * it returns null if document with such id was not found.
      */
     CollaborativeDocument getById(String documentId);

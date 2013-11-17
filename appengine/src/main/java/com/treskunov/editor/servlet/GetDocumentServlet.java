@@ -3,7 +3,7 @@ package com.treskunov.editor.servlet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.treskunov.editor.CollaborativeDocument;
-import com.treskunov.editor.CollaborativeDocumentRepository;
+import com.treskunov.editor.CollaborativeDocumentProvider;
 import com.treskunov.editor.channel.ChannelApiCollaborator;
 import com.treskunov.editor.channel.ChannelApiCollaboratorsProvider;
 import org.json.JSONObject;
@@ -34,12 +34,12 @@ public class GetDocumentServlet extends HttpServlet {
 
     private static final String JSON_CONTENT_TYPE = "application/json";
 
-    private CollaborativeDocumentRepository documentRepository;
+    private CollaborativeDocumentProvider documentProvider;
     private ChannelApiCollaboratorsProvider collaboratorsProvider;
 
     @Inject
-    public GetDocumentServlet(CollaborativeDocumentRepository documentRepository, ChannelApiCollaboratorsProvider collaboratorsProvider) {
-        this.documentRepository = documentRepository;
+    public GetDocumentServlet(CollaborativeDocumentProvider documentProvider, ChannelApiCollaboratorsProvider collaboratorsProvider) {
+        this.documentProvider = documentProvider;
         this.collaboratorsProvider = collaboratorsProvider;
     }
 
@@ -67,7 +67,7 @@ public class GetDocumentServlet extends HttpServlet {
 
     private CollaborativeDocument findDocument(HttpServletRequest req) {
         String documentId = req.getParameter("documentId");
-        return documentRepository.getById(documentId);
+        return documentProvider.getById(documentId);
     }
 
     private void registerCollaborator(HttpServletRequest req, CollaborativeDocument document) {

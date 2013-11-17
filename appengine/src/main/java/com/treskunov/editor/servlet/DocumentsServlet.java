@@ -3,7 +3,7 @@ package com.treskunov.editor.servlet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.treskunov.editor.CollaborativeDocument;
-import com.treskunov.editor.CollaborativeDocumentRepository;
+import com.treskunov.editor.CollaborativeDocumentProvider;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,16 +17,16 @@ import java.io.IOException;
 @Singleton
 public class DocumentsServlet extends HttpServlet {
 
-    private CollaborativeDocumentRepository documentRepository;
+    private CollaborativeDocumentProvider documentProvider;
 
     @Inject
-    public DocumentsServlet(CollaborativeDocumentRepository documentRepository) {
-        this.documentRepository = documentRepository;
+    public DocumentsServlet(CollaborativeDocumentProvider documentProvider) {
+        this.documentProvider = documentProvider;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Iterable<CollaborativeDocument> existingDocuments = documentRepository.getAllDocuments();
+        Iterable<CollaborativeDocument> existingDocuments = documentProvider.getAllDocuments();
         req.setAttribute("documents", existingDocuments);
         req.getRequestDispatcher("/views/documents.jsp").include(req, resp);
     }
@@ -34,7 +34,7 @@ public class DocumentsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("title");
-        CollaborativeDocument created = documentRepository.create(title);
+        CollaborativeDocument created = documentProvider.create(title);
         resp.sendRedirect("/editor?documentId=" + created.getId());
     }
 }

@@ -2,7 +2,7 @@ package com.treskunov.editor.servlet;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.treskunov.editor.CollaborativeDocumentRepository;
+import com.treskunov.editor.CollaborativeDocumentProvider;
 import com.treskunov.editor.MutableDocument;
 import com.treskunov.editor.Operation;
 import org.slf4j.Logger;
@@ -33,12 +33,12 @@ public class UpdateOperationServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(UpdateOperationServlet.class);
 
     private final OperationParser parser;
-    private final CollaborativeDocumentRepository documentRepository;
+    private final CollaborativeDocumentProvider documentProvider;
 
     @Inject
-    public UpdateOperationServlet(OperationParser parser, CollaborativeDocumentRepository documentRepository) {
+    public UpdateOperationServlet(OperationParser parser, CollaborativeDocumentProvider documentProvider) {
         this.parser = parser;
-        this.documentRepository = documentRepository;
+        this.documentProvider = documentProvider;
     }
 
     @Override
@@ -57,6 +57,6 @@ public class UpdateOperationServlet extends HttpServlet {
 
     private MutableDocument findDocument(HttpServletRequest req) {
         String documentId = req.getParameter("documentId");
-        return documentRepository.getById(documentId);
+        return documentProvider.getById(documentId);
     }
 }

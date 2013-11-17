@@ -1,7 +1,7 @@
 package com.treskunov.editor.document;
 
 import com.treskunov.editor.CollaborativeDocument;
-import com.treskunov.editor.CollaborativeDocumentRepository;
+import com.treskunov.editor.CollaborativeDocumentProvider;
 import com.treskunov.editor.Collaborator;
 import com.treskunov.editor.Operation;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * This is a sketch.
  */
-public class AppEngineCollaborativeDocumentRepository implements CollaborativeDocumentRepository {
+public class AppEngineCollaborativeDocumentProvider implements CollaborativeDocumentProvider {
 
     @Override
     public CollaborativeDocument getById(String documentId) {

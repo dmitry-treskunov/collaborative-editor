@@ -1,7 +1,7 @@
 package com.treskunov.editor.servlet;
 
 import com.treskunov.editor.CollaborativeDocument;
-import com.treskunov.editor.CollaborativeDocumentRepository;
+import com.treskunov.editor.CollaborativeDocumentProvider;
 import com.treskunov.editor.Operation;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class UpdateOperationServletTest {
     @Mock
     private OperationParser operationParser;
     @Mock
-    private CollaborativeDocumentRepository documentRepository;
+    private CollaborativeDocumentProvider documentProvider;
 
     @InjectMocks
     private UpdateOperationServlet servlet;
@@ -36,7 +36,7 @@ public class UpdateOperationServletTest {
     @Before
     public void setUp() throws Exception {
         existingDocument = mock(CollaborativeDocument.class);
-        when(documentRepository.getById(existingDocumentId)).thenReturn(existingDocument);
+        when(documentProvider.getById(existingDocumentId)).thenReturn(existingDocument);
     }
 
     @Test

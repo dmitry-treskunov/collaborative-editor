@@ -1,7 +1,7 @@
 package com.treskunov.editor.servlet;
 
 import com.treskunov.editor.CollaborativeDocument;
-import com.treskunov.editor.CollaborativeDocumentRepository;
+import com.treskunov.editor.CollaborativeDocumentProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 public class DocumentsServletTest {
 
     @Mock
-    private CollaborativeDocumentRepository documentRepository;
+    private CollaborativeDocumentProvider documentProvider;
 
     @InjectMocks
     private DocumentsServlet documentsListServlet;
@@ -45,7 +45,7 @@ public class DocumentsServletTest {
     @Test
     public void shouldReturnAllDocumentsOnGetRequest() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
-        when(documentRepository.getAllDocuments()).thenReturn(asList(firstExistingDocument, secondExistingDocument));
+        when(documentProvider.getAllDocuments()).thenReturn(asList(firstExistingDocument, secondExistingDocument));
 
         documentsListServlet.doGet(request, new MockHttpServletResponse());
 
@@ -56,18 +56,18 @@ public class DocumentsServletTest {
     public void shouldCreateNewDocumentOnPostRequest() throws Exception {
         HttpServletRequest request = createPostRequestWithDocumentTitle("Hello world!");
         CollaborativeDocument createdDocument = createDocumentWithId("doc1");
-        when(documentRepository.create("Hello world!")).thenReturn(createdDocument);
+        when(documentProvider.create("Hello world!")).thenReturn(createdDocument);
 
         documentsListServlet.doPost(request, new MockHttpServletResponse());
 
-        verify(documentRepository).create("Hello world!");
+        verify(documentProvider).create("Hello world!");
     }
 
     @Test
     public void shouldRedirectOnCreatedDocumentPage() throws Exception {
         HttpServletRequest request = createPostRequestWithDocumentTitle("Hello world!");
         CollaborativeDocument createdDocument = createDocumentWithId("doc1");
-        when(documentRepository.create("Hello world!")).thenReturn(createdDocument);
+        when(documentProvider.create("Hello world!")).thenReturn(createdDocument);
 
         MockHttpServletResponse response = new MockHttpServletResponse();
         documentsListServlet.doPost(request, response);

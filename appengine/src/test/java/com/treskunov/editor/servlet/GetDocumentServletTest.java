@@ -1,7 +1,7 @@
 package com.treskunov.editor.servlet;
 
 import com.treskunov.editor.CollaborativeDocument;
-import com.treskunov.editor.CollaborativeDocumentRepository;
+import com.treskunov.editor.CollaborativeDocumentProvider;
 import com.treskunov.editor.channel.ChannelApiCollaborator;
 import com.treskunov.editor.channel.ChannelApiCollaboratorsProvider;
 import org.json.JSONObject;
@@ -32,7 +32,7 @@ public class GetDocumentServletTest {
     private GetDocumentServlet servlet;
 
     @Mock
-    private CollaborativeDocumentRepository documentRepository;
+    private CollaborativeDocumentProvider documentProvider;
 
     @Mock
     private ChannelApiCollaboratorsProvider collaboratorsProvider;
@@ -43,7 +43,7 @@ public class GetDocumentServletTest {
         when(existingDocument.getTitle()).thenReturn("Hello");
         when(existingDocument.getVersion()).thenReturn(1);
         when(existingDocument.asText()).thenReturn("HelloWorld!");
-        when(documentRepository.getById(existingDocumentId)).thenReturn(existingDocument);
+        when(documentProvider.getById(existingDocumentId)).thenReturn(existingDocument);
     }
 
     @Test

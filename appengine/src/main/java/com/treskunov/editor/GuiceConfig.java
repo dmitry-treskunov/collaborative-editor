@@ -7,7 +7,7 @@ import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.treskunov.editor.channel.ChannelApiCollaboratorsProvider;
 import com.treskunov.editor.channel.InMemoryChannelApiCollaboratorsProvider;
-import com.treskunov.editor.document.InMemoryCollaborativeDocumentRepository;
+import com.treskunov.editor.document.SynchronizedCollaborativeDocumentProvider;
 import com.treskunov.editor.operation.ActionTransformer;
 import com.treskunov.editor.operation.OperationRebaser;
 import com.treskunov.editor.operation.SimpleActionTransformer;
@@ -27,15 +27,15 @@ public class GuiceConfig extends GuiceServletContextListener {
      * Initialize application with one document.
      */
     private void createDocumentForTest(Injector injector) {
-        CollaborativeDocumentRepository repository = injector.getInstance(CollaborativeDocumentRepository.class);
-        repository.create("Hello world!");
+        CollaborativeDocumentProvider documentProvider = injector.getInstance(CollaborativeDocumentProvider.class);
+        documentProvider.create("Hello world!");
     }
 
     private static class CollaborativeEditorModule extends AbstractModule {
 
         @Override
         protected void configure() {
-            bind(CollaborativeDocumentRepository.class).to(InMemoryCollaborativeDocumentRepository.class);
+            bind(CollaborativeDocumentProvider.class).to(SynchronizedCollaborativeDocumentProvider.class);
             bind(OperationParser.class).to(FormOperationParser.class);
             bind(ActionTransformer.class).to(SimpleActionTransformer.class);
             bind(OperationRebaser.class).to(TransformingOperationRebaser.class);

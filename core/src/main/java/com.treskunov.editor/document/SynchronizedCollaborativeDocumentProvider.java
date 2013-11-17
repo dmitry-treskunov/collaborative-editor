@@ -2,7 +2,7 @@ package com.treskunov.editor.document;
 
 import com.google.inject.Singleton;
 import com.treskunov.editor.CollaborativeDocument;
-import com.treskunov.editor.CollaborativeDocumentRepository;
+import com.treskunov.editor.CollaborativeDocumentProvider;
 import com.treskunov.editor.DocumentContent;
 import com.treskunov.editor.operation.OperationRebaser;
 import net.jcip.annotations.ThreadSafe;
@@ -13,16 +13,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Implementation of {@link CollaborativeDocumentRepository} that stores document in
- * internal collection.
+ * Implementation of {@link CollaborativeDocumentProvider}
+ * that operates with {@link SynchronizedCollaborativeDocumentProvider}
+ * and stores documents in the internal collection.
  * <p/>
  * This is not very useful for real life, but is suitable for prototype.
  *
- * @see AppEngineCollaborativeDocumentRepository
+ * @see AppEngineCollaborativeDocumentProvider
  */
 @Singleton
 @ThreadSafe
-public class InMemoryCollaborativeDocumentRepository implements CollaborativeDocumentRepository {
+public class SynchronizedCollaborativeDocumentProvider implements CollaborativeDocumentProvider {
 
     private AtomicInteger idSequence = new AtomicInteger(1);
 
@@ -30,7 +31,7 @@ public class InMemoryCollaborativeDocumentRepository implements CollaborativeDoc
     private OperationRebaser operationRebaser;
 
     @Inject
-    public InMemoryCollaborativeDocumentRepository(OperationRebaser operationRebaser) {
+    public SynchronizedCollaborativeDocumentProvider(OperationRebaser operationRebaser) {
         this.operationRebaser = operationRebaser;
     }
 

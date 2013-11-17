@@ -133,9 +133,27 @@ public class SynchronizedDocumentTest {
         verify(secondCollaborator).onOperationApplied(currentRebased);
     }
 
+    @Test
+    public void shouldNotNotifyUnregisteredCollaborators() throws Exception {
+        registerCollaborators(firstCollaborator, secondCollaborator);
+        unregisterCollaborators(firstCollaborator);
+
+        Operation operation = createOperationWithVersion(0);
+        document.apply(operation);
+
+        verify(firstCollaborator).onOperationApplied(operation);
+        verify(secondCollaborator, never()).onOperationApplied(operation);
+    }
+
     private void applyOperations(Operation... operations) {
         for (Operation operation : operations) {
             document.apply(operation);
+        }
+    }
+
+    private void unregisterCollaborators(Collaborator... collaborators) {
+        for (Collaborator collaborator : collaborators) {
+            document.unregisterCollaborator(collaborator);
         }
     }
 

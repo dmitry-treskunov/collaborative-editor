@@ -33,7 +33,7 @@ public class DocumentEditorServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String documentId = getDocumentId(request);
-        String clientId = collaboratorsProvider.create();
+        String clientId = collaboratorsProvider.create(documentId);
         request.setAttribute("clientId", clientId);
         request.setAttribute("documentId", documentId);
         request.getRequestDispatcher("/views/editor.jsp").include(request, response);

@@ -14,12 +14,19 @@ public abstract class AbstractCollaborativeDocument implements CollaborativeDocu
     private static final Logger logger = LoggerFactory.getLogger(AbstractCollaborativeDocument.class);
 
     /**
-     * Number of reads is much more that number writes.
+     * Number of reads is much more that number of writes.
      */
     private List<Collaborator> collaborators = new CopyOnWriteArrayList<>();
 
     public void registerCollaborator(Collaborator collaborator) {
+        logger.info("Registering collaborator " + collaborator);
         collaborators.add(collaborator);
+    }
+
+    @Override
+    public void unregisterCollaborator(Collaborator collaborator) {
+        logger.info("Unregistering collaborator " + collaborator);
+        collaborators.remove(collaborator);
     }
 
     protected void notifyCollaborators(Operation operationToApply) {

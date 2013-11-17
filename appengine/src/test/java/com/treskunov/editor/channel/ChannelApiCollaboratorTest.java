@@ -7,6 +7,7 @@ import org.junit.Test;
 import static com.treskunov.editor.operation.ActingOperation.OperationBuilder.anOperationBy;
 import static com.treskunov.editor.operation.action.DeleteAction.DeleteActionBuilder.delete;
 import static com.treskunov.editor.operation.action.InsertAction.InsertActionBuilder.insert;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -22,11 +23,12 @@ public class ChannelApiCollaboratorTest {
 
     private ChannelApiCollaborator collaborator;
     private Channel channel;
+    private String documentId = "doc#1";
 
     @Before
     public void setUp() throws Exception {
         channel = mock(Channel.class);
-        collaborator = new ChannelApiCollaborator(channel);
+        collaborator = new ChannelApiCollaborator(channel, documentId);
     }
 
     @Test
@@ -65,5 +67,17 @@ public class ChannelApiCollaboratorTest {
         String channelToken = collaborator.initChannel();
 
         assertThat(channelToken, is("channelToken"));
+    }
+
+    @Test
+    public void shouldRememberDocumentIdThatWasUsedInConstruction() throws Exception {
+        assertThat(collaborator.getDocumentId(), is(documentId));
+    }
+
+    @Test
+    public void shouldBeEqualToAnotherCollaboratorWithTheSameChannel() throws Exception {
+        ChannelApiCollaborator anotherCollaborator = new ChannelApiCollaborator(channel, documentId);
+
+        assertThat(anotherCollaborator, is(equalTo(collaborator)));
     }
 }

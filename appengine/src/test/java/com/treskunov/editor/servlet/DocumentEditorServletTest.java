@@ -1,7 +1,6 @@
 package com.treskunov.editor.servlet;
 
 import com.treskunov.editor.channel.ChannelApiCollaboratorsProvider;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -24,15 +23,10 @@ public class DocumentEditorServletTest {
     @InjectMocks
     private DocumentEditorServlet documentEditorServlet;
 
-    @Before
-    public void setUp() throws Exception {
-        when(mockCollaboratorsProvider.create()).thenReturn("id1");
-    }
-
     @Test
     public void shouldCreateCollaboratorAndPutItIdToRequestAttributes() throws Exception {
         HttpServletRequest request = createRequestWithDocumentId("doc#1");
-        when(mockCollaboratorsProvider.create()).thenReturn("collaborator#2");
+        when(mockCollaboratorsProvider.create("doc#1")).thenReturn("collaborator#2");
 
         documentEditorServlet.doGet(request, new MockHttpServletResponse());
 
@@ -42,6 +36,7 @@ public class DocumentEditorServletTest {
     @Test
     public void shouldPutDocumentIdToRequestAttributes() throws Exception {
         HttpServletRequest request = createRequestWithDocumentId("doc#1");
+        when(mockCollaboratorsProvider.create("doc#1")).thenReturn("collaborator#2");
 
         documentEditorServlet.doGet(request, new MockHttpServletResponse());
 

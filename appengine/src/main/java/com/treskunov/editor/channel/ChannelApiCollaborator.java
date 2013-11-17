@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * {@link Collaborator} implementation for App Engine Channel API.
@@ -17,9 +18,16 @@ import java.util.Map;
 public class ChannelApiCollaborator implements Collaborator {
 
     private final Channel channel;
+    private final String documentId;
 
-    public ChannelApiCollaborator(Channel channel) {
+    public ChannelApiCollaborator(Channel channel, String documentId) {
         this.channel = channel;
+        this.documentId = documentId;
+    }
+
+    @Override
+    public String getDocumentId() {
+        return documentId;
     }
 
     @Override
@@ -30,6 +38,31 @@ public class ChannelApiCollaborator implements Collaborator {
 
     public String initChannel() {
         return channel.init();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(channel, documentId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChannelApiCollaborator other = (ChannelApiCollaborator) obj;
+        return Objects.equals(this.channel, other.channel);
+    }
+
+    @Override
+    public String toString() {
+        return "ChannelApiCollaborator{" +
+                "channel=" + channel +
+                ", documentId='" + documentId + '\'' +
+                '}';
     }
 
     private String serialize(Operation operation) {

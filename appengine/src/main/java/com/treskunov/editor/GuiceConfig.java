@@ -51,6 +51,7 @@ public class GuiceConfig extends GuiceServletContextListener {
             serve("/channel/token").with(ChannelTokenServlet.class);
             serve("/document").with(GetDocumentServlet.class);
             serve("/document/update").with(UpdateOperationServlet.class);
+            serve("/_ah/channel/disconnected/").with(ChannelDisconnectServlet.class);
         }
     }
 }

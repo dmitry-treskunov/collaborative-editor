@@ -15,9 +15,9 @@ public class InMemoryChannelApiCollaboratorsProvider implements ChannelApiCollab
     private Map<String, ChannelApiCollaborator> collaborators = new ConcurrentHashMap<>();
 
     @Override
-    public String create() {
+    public String create(String documentId) {
         String clientId = String.valueOf(clientIdSequence.getAndIncrement());
-        ChannelApiCollaborator collaborator = createCollaborator(clientId);
+        ChannelApiCollaborator collaborator = createCollaborator(clientId, documentId);
         collaborators.put(clientId, collaborator);
         return clientId;
     }
@@ -27,9 +27,9 @@ public class InMemoryChannelApiCollaboratorsProvider implements ChannelApiCollab
         return collaborators.get(clientId);
     }
 
-    private ChannelApiCollaborator createCollaborator(String clientId) {
+    private ChannelApiCollaborator createCollaborator(String clientId, String documentId) {
         Channel channel = new DefaultChannel(clientId);
-        return new ChannelApiCollaborator(channel);
+        return new ChannelApiCollaborator(channel, documentId);
     }
 
 }

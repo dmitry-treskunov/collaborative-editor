@@ -11,19 +11,28 @@ public class InMemoryChannelApiCollaboratorsProviderTest {
 
     @Test
     public void shouldInitCollaboratorsByDifferentIds() throws Exception {
-        String firstCollaboratorId = provider.create();
+        String firstCollaboratorId = provider.create("doc#1");
 
-        String secondCollaboratorId = provider.create();
+        String secondCollaboratorId = provider.create("doc#1");
 
         assertThat(secondCollaboratorId, is(not(equalTo(firstCollaboratorId))));
     }
 
     @Test
     public void shouldRememberCreatedCollaborator() throws Exception {
-        String createdCollaboratorId = provider.create();
+        String createdCollaboratorId = provider.create("doc#1");
 
         ChannelApiCollaborator foundCollaborator = provider.getByClientId(createdCollaboratorId);
 
         assertThat(foundCollaborator, is(notNullValue()));
+    }
+
+    @Test
+    public void shouldInitCollaboratorWithDocumentId() throws Exception {
+        String createdCollaboratorId = provider.create("doc#1");
+
+        ChannelApiCollaborator foundCollaborator = provider.getByClientId(createdCollaboratorId);
+
+        assertThat(foundCollaborator.getDocumentId(), is("doc#1"));
     }
 }

@@ -42,6 +42,11 @@ public class AppEngineCollaborativeDocumentProvider implements CollaborativeDocu
         }
 
         @Override
+        public void unregisterCollaborator(Collaborator collaborator) {
+            target.unregisterCollaborator(collaborator);
+        }
+
+        @Override
         public int getVersion() {
             return target.getVersion();
         }

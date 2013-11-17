@@ -3,7 +3,7 @@ package com.treskunov.editor.servlet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.treskunov.editor.CollaborativeDocumentProvider;
-import com.treskunov.editor.MutableDocument;
+import com.treskunov.editor.Document;
 import com.treskunov.editor.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class UpdateOperationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Operation operation = parseOperation(req);
-        MutableDocument document = findDocument(req);
+        Document document = findDocument(req);
         document.apply(operation);
         resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
@@ -55,7 +55,7 @@ public class UpdateOperationServlet extends HttpServlet {
         return operation;
     }
 
-    private MutableDocument findDocument(HttpServletRequest req) {
+    private Document findDocument(HttpServletRequest req) {
         String documentId = req.getParameter("documentId");
         return documentProvider.getById(documentId);
     }

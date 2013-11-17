@@ -2,9 +2,11 @@ package com.treskunov.editor;
 
 public interface Document {
 
-    String asText();
+    String getId();
 
     String getTitle();
 
-    String getId();
+    String asText();
+
+    void apply(Operation operation);
 }

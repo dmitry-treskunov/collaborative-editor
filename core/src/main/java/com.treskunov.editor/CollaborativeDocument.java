@@ -4,7 +4,7 @@ package com.treskunov.editor;
  * Document that can be edited by multiple collaborators
  * in the same time.
  */
-public interface CollaborativeDocument extends MutableDocument {
+public interface CollaborativeDocument extends Document {
 
     /**
      * Register {@link Collaborator} that is supposed to edit the document.

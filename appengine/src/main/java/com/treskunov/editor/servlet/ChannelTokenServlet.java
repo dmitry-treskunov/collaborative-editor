@@ -15,13 +15,12 @@ import java.io.IOException;
  * The following scenario seems to be most logical for Channel Api interaction:
  * <ul>
  * <li>Client requests page with document editor using {@link DocumentEditorServlet}
- * <li>{@link DocumentEditorServlet} puts 'clientId' to the returned page</li>
- * <li>Using XHR client asks this Servlet for token passing 'clientId' in the request</li>
- * <li>Client opens channel using received token</li>
+ * <li>{@link DocumentEditorServlet} puts 'clientId' to the returned page
+ * <li>Using XHR client asks this Servlet for token passing 'clientId' in the request
+ * <li>Client opens channel using received token
  * </ul>
  * <p/>
- * <p/>
- * NOTE: this servlet also should be used to re-initialize expired tokens.
+ * TODO: this servlet also should be used to re-initialize expired tokens.
  * Currently token is expired in two hours.
  */
 @Singleton

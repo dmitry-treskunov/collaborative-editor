@@ -16,6 +16,8 @@ import java.util.List;
  * <li>All methods are synchronized (can be cause of high contention)</li>
  * <li>All operations are applied eagerly</li>
  * </ul>
+ *
+ * @see ProducersConsumerDocument
  */
 @ThreadSafe
 public class SynchronizedDocument extends AbstractCollaborativeDocument {

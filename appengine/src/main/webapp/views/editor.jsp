@@ -32,6 +32,6 @@
 <script>
     var view = initView();
     var collaborativeEditor = initEditor('${documentId}', '${clientId}', view);
-    view.initPresenter(collaborativeEditor);
+    view.setPresenter(collaborativeEditor);
 </script>
 </html>

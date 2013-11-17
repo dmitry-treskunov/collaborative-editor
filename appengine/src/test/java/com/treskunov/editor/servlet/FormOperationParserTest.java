@@ -3,8 +3,10 @@ package com.treskunov.editor.servlet;
 import com.treskunov.editor.Operation;
 import com.treskunov.editor.servlet.exception.UnrecognizableOperationException;
 import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+
+import static com.treskunov.editor.builder.RequestBuilder.aRequest;
 import static com.treskunov.editor.operation.ActingOperation.OperationBuilder.anOperationBy;
 import static com.treskunov.editor.operation.action.DeleteAction.DeleteActionBuilder.delete;
 import static com.treskunov.editor.operation.action.InsertAction.InsertActionBuilder.insert;
@@ -18,12 +20,12 @@ public class FormOperationParserTest {
 
     @Test
     public void shouldParseInsertTextOperation() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("op", "insert");
-        request.setParameter("position", "3");
-        request.setParameter("value", "Hello");
-        request.setParameter("initiator", "Dmitry");
-        request.setParameter("version", "2");
+        HttpServletRequest request = aRequest().
+                withParameter("op", "insert").
+                withParameter("position", "3").
+                withParameter("value", "Hello").
+                withParameter("initiator", "Dmitry").
+                withParameter("version", "2").build();
 
         Operation operation = parser.fromRequest(request);
 
@@ -34,12 +36,12 @@ public class FormOperationParserTest {
 
     @Test
     public void shouldParseDeleteTextOperation() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("op", "delete");
-        request.setParameter("position", "3");
-        request.setParameter("value", "Bye");
-        request.setParameter("initiator", "Dmitry");
-        request.setParameter("version", "2");
+        HttpServletRequest request = aRequest().
+                withParameter("op", "delete").
+                withParameter("position", "3").
+                withParameter("value", "Bye").
+                withParameter("initiator", "Dmitry").
+                withParameter("version", "2").build();
 
         Operation operation = parser.fromRequest(request);
 
@@ -50,10 +52,10 @@ public class FormOperationParserTest {
 
     @Test(expected = UnrecognizableOperationException.class)
     public void shouldFailToParseUnrecognizableOperation() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("op", "unrecognizable");
-        request.setParameter("initiator", "Dmitry");
-        request.setParameter("version", "2");
+        HttpServletRequest request = aRequest().
+                withParameter("op", "unrecognizable").
+                withParameter("initiator", "Dmitry").
+                withParameter("version", "2").build();
 
         parser.fromRequest(request);
     }

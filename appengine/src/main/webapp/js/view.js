@@ -3,10 +3,16 @@ var initView = function () {
     var presenter;
     var content;
     var textArea = document.getElementById('editor');
+
+    /**
+     * External operations should not be processing in the same time
+     * with user actions.
+     */
     var blocked = false;
 
     /**
-     * TODO refactor it!
+     * User inputs are localized so it seems to be possible to
+     * find modified interval using two iterators: from the start and from the end.
      */
     var calculateOperations = function () {
         var oldval = content;
@@ -41,17 +47,14 @@ var initView = function () {
     }
 
     textArea.onkeydown = function () {
-        console.log('Block is installed');
         blocked = true;
     }
 
     textArea.onkeyup = function () {
-        console.log("Key press on position " + JSON.stringify(getUserSelection()))
         var operations = calculateOperations();
         console.log('Generated operations ' + JSON.stringify(operations))
         presenter.onUserOperations(operations);
         blocked = false;
-        console.log('Block is released')
     }
 
     var getUserSelection = function () {
@@ -94,11 +97,11 @@ var initView = function () {
 
     return {
 
-        isBlocked: function () {
+        isUserActive: function () {
             return blocked;
         },
 
-        initPresenter: function (p) {
+        setPresenter: function (p) {
             presenter = p
         },
 

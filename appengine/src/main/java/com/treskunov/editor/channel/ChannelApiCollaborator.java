@@ -42,7 +42,7 @@ public class ChannelApiCollaborator implements Collaborator {
 
     @Override
     public int hashCode() {
-        return Objects.hash(channel, documentId);
+        return Objects.hash(channel);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ChannelApiCollaborator implements Collaborator {
 
     private String serialize(Operation operation) {
         SerializerVisitor serializerVisitor = new SerializerVisitor(operation);
-        operation.accept(serializerVisitor);
+        operation.getAction().accept(serializerVisitor);
         return serializerVisitor.getMessage();
     }
 

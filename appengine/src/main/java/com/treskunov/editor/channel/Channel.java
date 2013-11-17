@@ -3,7 +3,7 @@ package com.treskunov.editor.channel;
 /**
  * Gateway hides low-level interactions with App Engine Channel API.
  * <p/>
- * Also it's very suitable for unit testing of classes that require
+ * Also it's very suitable for unit testing of classes that requires
  * Channel API interactions, because Channel API itself provides static methods
  * that throw exceptions when are called outside of app engine server.
  *

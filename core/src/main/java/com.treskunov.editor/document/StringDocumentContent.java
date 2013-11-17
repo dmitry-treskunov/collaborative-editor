@@ -6,7 +6,7 @@ import net.jcip.annotations.NotThreadSafe;
 import java.util.Objects;
 
 /**
- * The simplest and non optimal implementation of {@link DocumentContent}
+ * The simplest but non optimal implementation of {@link DocumentContent}
  * backed by string.
  * <p/>
  * Note that all operations are very expensive.

@@ -1,7 +1,6 @@
 package com.treskunov.editor.operation;
 
 import com.treskunov.editor.Action;
-import com.treskunov.editor.ActionVisitor;
 import com.treskunov.editor.DocumentContent;
 import com.treskunov.editor.Operation;
 import com.treskunov.editor.operation.action.NoOpAction;
@@ -56,11 +55,6 @@ public class ActingOperation implements Operation {
     @Override
     public Action getAction() {
         return action;
-    }
-
-    @Override
-    public void accept(ActionVisitor visitor) {
-        action.accept(visitor);
     }
 
     @Override

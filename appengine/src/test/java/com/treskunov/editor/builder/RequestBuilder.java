@@ -12,8 +12,16 @@ public final class RequestBuilder {
         request = new MockHttpServletRequest();
     }
 
+    private RequestBuilder(String method, String uri) {
+        request = new MockHttpServletRequest(method, uri);
+    }
+
     public static RequestBuilder aRequest() {
         return new RequestBuilder();
+    }
+
+    public static RequestBuilder aRequest(String method, String uri) {
+        return new RequestBuilder(method, uri);
     }
 
     public RequestBuilder withParameter(String name, String value) {

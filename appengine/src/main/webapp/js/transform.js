@@ -1,3 +1,9 @@
+/**
+ * Contains Operational Transformation functions.
+ *
+ * Usage:
+ * transformedPair = transformer.transform(o1,o2)
+ */
 var transformer = function () {
     var transformationMatrix = {};
 

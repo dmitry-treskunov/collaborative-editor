@@ -59,7 +59,6 @@ public class FormOperationParser implements OperationParser {
         return insert(value).toPosition(index);
     }
 
-
     private Action parseDeleteAction(HttpServletRequest request) {
         String value = request.getParameter("value");
         int index = Integer.valueOf(request.getParameter("position"));

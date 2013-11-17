@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  * This servlet provides endpoint that is called by AppEngine platform when
- * channel is disconnected.
+ * the channel is disconnected.
  */
 @Singleton
 public class ChannelDisconnectServlet extends HttpServlet {

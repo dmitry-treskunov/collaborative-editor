@@ -6,7 +6,7 @@ import com.google.appengine.api.channel.ChannelServiceFactory;
 import java.util.Objects;
 
 /**
- * Default implementation of {@link com.treskunov.editor.channel.Channel} that works with App Engine 1.8.6.
+ * Default implementation of {@link Channel} that works with App Engine 1.8.6.
  */
 public class DefaultChannel implements Channel {
 

@@ -6,11 +6,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.treskunov.editor.builder.RequestBuilder.aRequest;
 import static com.treskunov.editor.matcher.RequestAttributeMatcher.hasNamedAttribute;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
@@ -44,8 +44,6 @@ public class DocumentEditorServletTest {
     }
 
     private HttpServletRequest createRequestWithDocumentId(String documentId) {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("documentId", documentId);
-        return request;
+        return aRequest().withParameter("documentId", documentId).build();
     }
 }

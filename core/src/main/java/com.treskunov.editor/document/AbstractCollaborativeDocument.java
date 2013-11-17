@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * General logic for collaborator notifications.
+ */
 public abstract class AbstractCollaborativeDocument implements CollaborativeDocument {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractCollaborativeDocument.class);

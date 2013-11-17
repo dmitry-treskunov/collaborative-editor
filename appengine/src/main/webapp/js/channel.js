@@ -1,13 +1,18 @@
-initChannel = function (params) {
+/**
+ * @param channelSpecification should contain:
+ * 'clientId' - specifies Channel API clientId used for this channel
+ * 'onMessage' and 'onOpened' callbacks
+ */
+initChannel = function (channelSpecification) {
 
     function onMessage(message) {
         var operation = JSON.parse(message.data);
-        params.onMessage(operation);
+        channelSpecification.onMessage(operation);
     }
 
     function onOpened() {
         console.log("Channel is opened");
-        params.onOpen();
+        channelSpecification.onOpen();
     }
 
     function openChannel(token) {
@@ -27,7 +32,7 @@ initChannel = function (params) {
 
     function getToken() {
         var request = new XMLHttpRequest();
-        request.open("GET", "/channel/token?clientId=" + params.clientId, true);
+        request.open("GET", "/channel/token?clientId=" + channelSpecification.clientId, true);
         request.onreadystatechange = function () {
             if (request.readyState == 4) {
                 if (request.status == 200) {

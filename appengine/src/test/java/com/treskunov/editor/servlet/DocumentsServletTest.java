@@ -13,6 +13,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.treskunov.editor.builder.RequestBuilder.aRequest;
 import static com.treskunov.editor.matcher.RequestAttributeMatcher.hasNamedAttribute;
 import static com.treskunov.editor.matcher.ResponseRedirectMatcher.hasRedirectUri;
 import static java.util.Arrays.asList;
@@ -92,8 +93,6 @@ public class DocumentsServletTest extends UserDependentTest {
     }
 
     private HttpServletRequest createPostRequestWithDocumentTitle(String title) {
-        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
-        request.setParameter("title", title);
-        return request;
+        return aRequest("POST", "/").withParameter("title", title).build();
     }
 }

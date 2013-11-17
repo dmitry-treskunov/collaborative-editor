@@ -136,7 +136,7 @@ public class SynchronizedDocumentTest {
     @Test
     public void shouldNotNotifyUnregisteredCollaborators() throws Exception {
         registerCollaborators(firstCollaborator, secondCollaborator);
-        unregisterCollaborators(firstCollaborator);
+        unregisterCollaborators(secondCollaborator);
 
         Operation operation = createOperationWithVersion(0);
         document.apply(operation);

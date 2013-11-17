@@ -5,7 +5,7 @@ import com.treskunov.editor.Operation;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Fetches {@link Operation} from client request.
+ * Fetches {@link Operation} from the client request.
  */
 public interface OperationParser {
 

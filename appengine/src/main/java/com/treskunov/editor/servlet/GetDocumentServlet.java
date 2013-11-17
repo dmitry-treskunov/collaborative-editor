@@ -52,9 +52,9 @@ public class GetDocumentServlet extends HttpServlet {
      * <p/>
      * Response body is json containing the following fields:
      * <ul>
-     * <li>documentTitle</li>
-     * <li>documentVersion</li>
-     * <li>documentText</li>
+     * <li>documentTitle
+     * <li>documentVersion
+     * <li>documentText
      * </ul>
      */
     @Override

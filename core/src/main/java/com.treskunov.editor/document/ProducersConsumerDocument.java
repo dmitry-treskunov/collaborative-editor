@@ -7,21 +7,28 @@ import com.treskunov.editor.operation.OperationRebaser;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * This is a sketch
+ * The sketch of the implementation based on producers-consumers pattern:
+ * - requests are producers
+ * - internal thread is single consumer that processes operations consequentially.
+ * <p/>
+ * This approach can reduce contention between request threads.
+ * <p/>
+ * Also this implementation could use list of applied operations as internal
+ * representation of content. When client asks for the content, then operations are
+ * applied and result can be cached.
  */
 public class ProducersConsumerDocument extends AbstractCollaborativeDocument {
 
-    //TODO extract it to configuration
     private static final int CAPACITY = 1000;
-
     private BlockingQueue<Operation> waitingOperations = new ArrayBlockingQueue<>(CAPACITY);
 
     private List<Operation> appliedOperations;
     private OperationRebaser operationRebaser;
-
-    private int version;
+    private AtomicInteger version;
+    private String title;
 
     public ProducersConsumerDocument(OperationRebaser operationRebaser) {
         this.operationRebaser = operationRebaser;
@@ -29,7 +36,7 @@ public class ProducersConsumerDocument extends AbstractCollaborativeDocument {
 
     @Override
     public void apply(Operation operation) {
-        //init worker here
+        //init worker thread here
         try {
             waitingOperations.put(operation);
         } catch (InterruptedException ex) {
@@ -39,24 +46,24 @@ public class ProducersConsumerDocument extends AbstractCollaborativeDocument {
 
     @Override
     public int getVersion() {
-        return version;
+        return version.get();
     }
 
     @Override
     public DocumentSnapshot getSnapshot() {
+        //lazily apply operations from buffer and return result
         return null;
     }
 
     @Override
     public String asText() {
-        //lazily apply operations and return result
+        //lazily apply operations from buffer and return result
         return null;
     }
 
     @Override
     public String getTitle() {
-        //return title here
-        return null;
+        return title;
     }
 
     @Override
@@ -65,6 +72,9 @@ public class ProducersConsumerDocument extends AbstractCollaborativeDocument {
         return null;
     }
 
+    /**
+     * Fetches one operation from the queue and process it.
+     */
     private class Worker implements Runnable {
 
         @Override
@@ -81,13 +91,14 @@ public class ProducersConsumerDocument extends AbstractCollaborativeDocument {
         private void apply(Operation operation) {
             Operation operationToApply = rebase(operation);
             appliedOperations.add(operationToApply);
-            ProducersConsumerDocument.this.version++;
+            //we don't want to execute operation immediately, we just remember it.
+            ProducersConsumerDocument.this.version.incrementAndGet();
             notifyCollaborators(operationToApply);
         }
 
         private synchronized Operation rebase(Operation operation) {
             if (hasOldVersion(operation)) {
-                int gapSize = version - operation.getDocumentVersion();
+                int gapSize = version.get() - operation.getDocumentVersion();
                 List<Operation> history = appliedOperations.subList(appliedOperations.size() - gapSize, appliedOperations.size());
                 return operationRebaser.rebase(operation, history);
             }

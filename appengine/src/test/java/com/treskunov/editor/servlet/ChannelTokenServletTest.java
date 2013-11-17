@@ -8,11 +8,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.treskunov.editor.builder.RequestBuilder.aRequest;
 import static com.treskunov.editor.matcher.ResponseContentTypeMatcher.hasContentType;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -51,8 +51,6 @@ public class ChannelTokenServletTest {
     }
 
     private HttpServletRequest createRequestWithClientId(String clientId) {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("clientId", clientId);
-        return request;
+        return aRequest().withParameter("clientId", clientId).build();
     }
 }

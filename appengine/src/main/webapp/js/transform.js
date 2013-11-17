@@ -1,6 +1,13 @@
 var transformer = function () {
     var transformationMatrix = {};
 
+    var identicalTransformation = function (o1, o2) {
+        return {
+            first: o1,
+            second: o2
+        }
+    }
+
     transformationMatrix['insert,insert'] = function (o1, o2) {
         if (o1.position <= o2.position) {
             return {
@@ -62,6 +69,12 @@ var transformer = function () {
             }
         }
     }
+
+    transformationMatrix['empty,delete'] = identicalTransformation
+    transformationMatrix['empty,insert'] = identicalTransformation
+    transformationMatrix['insert,empty'] = identicalTransformation
+    transformationMatrix['delete,empty'] = identicalTransformation
+    transformationMatrix['empty,empty'] = identicalTransformation
 
     return {
 

@@ -2,6 +2,7 @@ package com.treskunov.editor.operation;
 
 import com.treskunov.editor.Action;
 import com.treskunov.editor.document.StringDocumentContent;
+import com.treskunov.editor.operation.action.NoOpAction;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
@@ -172,6 +173,62 @@ public class SimpleActionTransformerTest {
         applyActions(transformed);
 
         assertBothDocumentsAre(new StringDocumentContent("Hello,world"));
+    }
+
+    //NoOP
+    @Test
+    public void shouldTransformInsertAgainstNoOpActions() throws Exception {
+        firstCollaboratorAction = insert(",").toPosition(5);
+        secondCollaboratorAction = new NoOpAction();
+
+        ActionPair transformed = transformer.transform(firstCollaboratorAction, secondCollaboratorAction);
+        applyActions(transformed);
+
+        assertBothDocumentsAre(new StringDocumentContent("Hello, world"));
+    }
+
+    @Test
+    public void shouldTransformNoOpAgainstInsertActions() throws Exception {
+        firstCollaboratorAction = new NoOpAction();
+        secondCollaboratorAction = insert(",").toPosition(5);
+
+        ActionPair transformed = transformer.transform(firstCollaboratorAction, secondCollaboratorAction);
+        applyActions(transformed);
+
+        assertBothDocumentsAre(new StringDocumentContent("Hello, world"));
+    }
+
+    @Test
+    public void shouldTransformNoOpAgainstDeleteActions() throws Exception {
+        firstCollaboratorAction = new NoOpAction();
+        secondCollaboratorAction = delete("H").startFrom(0);
+
+        ActionPair transformed = transformer.transform(firstCollaboratorAction, secondCollaboratorAction);
+        applyActions(transformed);
+
+        assertBothDocumentsAre(new StringDocumentContent("ello world"));
+    }
+
+    @Test
+    public void shouldTransformDeleteAgainstNoOpActions() throws Exception {
+        firstCollaboratorAction = delete("l").startFrom(9);
+        secondCollaboratorAction = new NoOpAction();
+
+        ActionPair transformed = transformer.transform(firstCollaboratorAction, secondCollaboratorAction);
+        applyActions(transformed);
+
+        assertBothDocumentsAre(new StringDocumentContent("Hello word"));
+    }
+
+    @Test
+    public void shouldTransformNoOpAgainstNoOpActions() throws Exception {
+        firstCollaboratorAction = new NoOpAction();
+        secondCollaboratorAction = new NoOpAction();
+
+        ActionPair transformed = transformer.transform(firstCollaboratorAction, secondCollaboratorAction);
+        applyActions(transformed);
+
+        assertBothDocumentsAre(new StringDocumentContent("Hello world"));
     }
 
     private void applyActions(ActionPair transformed) {

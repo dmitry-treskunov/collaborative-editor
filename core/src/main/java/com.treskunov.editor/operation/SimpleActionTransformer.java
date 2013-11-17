@@ -37,6 +37,12 @@ public class SimpleActionTransformer implements ActionTransformer {
             ActionPair transformed = transformInsertAgainstDelete((InsertAction) second, (DeleteAction) first);
             return transformed.swap();
         }
+        if (first instanceof NoOpAction) {
+            return transformAgainstNoOp((NoOpAction) first, second);
+        }
+        if (second instanceof NoOpAction) {
+            return transformNoOpAgainstAnything(first, (NoOpAction) second);
+        }
         throw new RuntimeException("Not implemented yet!");
     }
 
@@ -77,5 +83,13 @@ public class SimpleActionTransformer implements ActionTransformer {
             Action secondTransformed = delete(second.getValueToDelete()).startFrom(second.getIndex());
             return new ActionPair(firstTransformed, secondTransformed);
         }
+    }
+
+    private ActionPair transformAgainstNoOp(NoOpAction first, Action second) {
+        return new ActionPair(first, second);
+    }
+
+    private ActionPair transformNoOpAgainstAnything(Action first, NoOpAction second) {
+        return new ActionPair(first, second);
     }
 }

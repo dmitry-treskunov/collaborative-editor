@@ -1,9 +1,6 @@
 package com.treskunov.editor.document;
 
-import com.treskunov.editor.CollaborativeDocument;
-import com.treskunov.editor.CollaborativeDocumentProvider;
-import com.treskunov.editor.Collaborator;
-import com.treskunov.editor.Operation;
+import com.treskunov.editor.*;
 
 import java.util.List;
 
@@ -47,6 +44,11 @@ public class AppEngineCollaborativeDocumentProvider implements CollaborativeDocu
         @Override
         public int getVersion() {
             return target.getVersion();
+        }
+
+        @Override
+        public DocumentSnapshot getSnapshot() {
+            return target.getSnapshot();
         }
 
         @Override

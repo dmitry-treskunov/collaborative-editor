@@ -1,5 +1,6 @@
 package com.treskunov.editor.document;
 
+import com.treskunov.editor.DocumentSnapshot;
 import com.treskunov.editor.Operation;
 import com.treskunov.editor.operation.OperationRebaser;
 
@@ -39,6 +40,11 @@ public class ProducersConsumerDocument extends AbstractCollaborativeDocument {
     @Override
     public int getVersion() {
         return version;
+    }
+
+    @Override
+    public DocumentSnapshot getSnapshot() {
+        return null;
     }
 
     @Override

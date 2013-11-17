@@ -1,6 +1,7 @@
 package com.treskunov.editor.document;
 
 import com.treskunov.editor.DocumentContent;
+import com.treskunov.editor.DocumentSnapshot;
 import com.treskunov.editor.Operation;
 import com.treskunov.editor.operation.OperationRebaser;
 import net.jcip.annotations.GuardedBy;
@@ -61,6 +62,11 @@ public class SynchronizedDocument extends AbstractCollaborativeDocument {
     @Override
     public synchronized int getVersion() {
         return version;
+    }
+
+    @Override
+    public synchronized DocumentSnapshot getSnapshot() {
+        return new DocumentSnapshot(title, content.asText(), version);
     }
 
     @Override

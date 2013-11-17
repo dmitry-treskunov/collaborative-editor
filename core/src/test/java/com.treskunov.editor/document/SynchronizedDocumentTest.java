@@ -54,6 +54,27 @@ public class SynchronizedDocumentTest {
     }
 
     @Test
+    public void shouldIncrementSnapshotVersionAfterOperationApplication() throws Exception {
+        Operation operation = createOperationWithVersion(0);
+
+        document.apply(operation);
+
+        assertThat(document.getSnapshot().getVersion(), is(1));
+    }
+
+    @Test
+    public void shouldReturnContentInDocumentSnapshot() throws Exception {
+        when(documentContent.asText()).thenReturn("Hello world");
+
+        assertThat(document.getSnapshot().getText(), is("Hello world"));
+    }
+
+    @Test
+    public void shouldReturnTitleInDocumentSnapshot() throws Exception {
+        assertThat(document.getSnapshot().getTitle(), is(documentTitle));
+    }
+
+    @Test
     public void shouldApplyOperationWithoutTransformationWhenItsVersionMatchesDocumentVersion() throws Exception {
         Operation operation = createOperationWithVersion(0);
 
@@ -111,7 +132,6 @@ public class SynchronizedDocumentTest {
         verify(firstCollaborator).onOperationApplied(currentRebased);
         verify(secondCollaborator).onOperationApplied(currentRebased);
     }
-
 
     private void applyOperations(Operation... operations) {
         for (Operation operation : operations) {

@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.treskunov.editor.CollaborativeDocument;
 import com.treskunov.editor.CollaborativeDocumentProvider;
+import com.treskunov.editor.DocumentSnapshot;
 import com.treskunov.editor.channel.ChannelApiCollaborator;
 import com.treskunov.editor.channel.ChannelApiCollaboratorsProvider;
 import org.json.JSONObject;
@@ -60,7 +61,7 @@ public class GetDocumentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CollaborativeDocument document = findDocument(req);
         registerCollaborator(req, document);
-        putDocumentToResponse(resp, document);
+        putDocumentSnapshotToResponse(resp, document.getSnapshot());
     }
 
     private CollaborativeDocument findDocument(HttpServletRequest req) {
@@ -74,12 +75,12 @@ public class GetDocumentServlet extends HttpServlet {
         document.registerCollaborator(collaborator);
     }
 
-    private void putDocumentToResponse(HttpServletResponse resp, CollaborativeDocument document) throws IOException {
+    private void putDocumentSnapshotToResponse(HttpServletResponse resp, DocumentSnapshot snapshot) throws IOException {
         resp.setContentType(ContentType.APPLICATION_JSON);
         Map<String, Object> responseContent = new LinkedHashMap<>();
-        responseContent.put("documentTitle", document.getTitle());
-        responseContent.put("documentVersion", document.getVersion());
-        responseContent.put("documentText", document.asText());
+        responseContent.put("documentTitle", snapshot.getTitle());
+        responseContent.put("documentVersion", snapshot.getVersion());
+        responseContent.put("documentText", snapshot.getText());
         String contentAsJson = new JSONObject(responseContent).toString();
         resp.getWriter().print(contentAsJson);
     }

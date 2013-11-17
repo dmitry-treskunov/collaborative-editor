@@ -2,6 +2,7 @@ package com.treskunov.editor.servlet;
 
 import com.treskunov.editor.CollaborativeDocument;
 import com.treskunov.editor.CollaborativeDocumentProvider;
+import com.treskunov.editor.DocumentSnapshot;
 import com.treskunov.editor.channel.ChannelApiCollaborator;
 import com.treskunov.editor.channel.ChannelApiCollaboratorsProvider;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ import static org.mockito.Mockito.*;
 public class GetDocumentServletTest {
 
     private String existingDocumentId = "doc#1";
+    private DocumentSnapshot existingDocumentSnapshot = new DocumentSnapshot("Hello", "HelloWorld!", 1);
     private CollaborativeDocument existingDocument;
 
     @InjectMocks
@@ -40,9 +42,7 @@ public class GetDocumentServletTest {
     @Before
     public void initExistingDocument() throws Exception {
         existingDocument = mock(CollaborativeDocument.class);
-        when(existingDocument.getTitle()).thenReturn("Hello");
-        when(existingDocument.getVersion()).thenReturn(1);
-        when(existingDocument.asText()).thenReturn("HelloWorld!");
+        when(existingDocument.getSnapshot()).thenReturn(existingDocumentSnapshot);
         when(documentProvider.getById(existingDocumentId)).thenReturn(existingDocument);
     }
 
@@ -64,7 +64,7 @@ public class GetDocumentServletTest {
         servlet.doGet(request, response);
 
         JSONObject responseContent = new JSONObject(response.getContentAsString());
-        assertThat(responseContent.getString("documentTitle"), is(existingDocument.getTitle()));
+        assertThat(responseContent.getString("documentTitle"), is(existingDocumentSnapshot.getTitle()));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class GetDocumentServletTest {
         servlet.doGet(request, response);
 
         JSONObject responseContent = new JSONObject(response.getContentAsString());
-        assertThat(responseContent.getInt("documentVersion"), is(existingDocument.getVersion()));
+        assertThat(responseContent.getInt("documentVersion"), is(existingDocumentSnapshot.getVersion()));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class GetDocumentServletTest {
         servlet.doGet(request, response);
 
         JSONObject responseContent = new JSONObject(response.getContentAsString());
-        assertThat(responseContent.getString("documentText"), is(existingDocument.asText()));
+        assertThat(responseContent.getString("documentText"), is(existingDocumentSnapshot.getText()));
     }
 
     @Test

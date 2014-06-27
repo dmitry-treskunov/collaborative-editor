@@ -12,7 +12,7 @@
 
     <groupId>com.treskunov.editor</groupId>
     <artifactId>collaborative-editor</artifactId>
-    <description>Collaborative real-time editor</description>
+    <description>Collaborative Real-time editor</description>
 
     <properties>
         <slf4j.version>1.7.5</slf4j.version>

@@ -13,4 +13,9 @@ changeBuildType(RelativeId("Build")) {
         "Unexpected description: '$description'"
     }
     description = "Build application"
+
+    check(paused == false) {
+        "Unexpected paused: '$paused'"
+    }
+    paused = true
 }

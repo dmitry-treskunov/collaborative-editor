@@ -6,7 +6,9 @@
     <options>
       <option name="artifactRules" value="README" />
     </options>
-    <parameters />
+    <parameters>
+      <param name="test2" value="2" />
+    </parameters>
     <build-runners>
       <runner id="RUNNER_8" name="" type="Maven2">
         <parameters>

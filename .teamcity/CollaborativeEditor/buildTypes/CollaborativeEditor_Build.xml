@@ -3,9 +3,6 @@
   <name>Build</name>
   <description />
   <settings>
-    <options>
-      <option name="artifactRules" value="README" />
-    </options>
     <parameters>
       <param name="test2" value="2" />
     </parameters>

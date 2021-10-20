@@ -12,7 +12,7 @@
     <build-runners>
       <runner id="RUNNER_9" name="" type="simpleRunner">
         <parameters>
-          <param name="script.content"><![CDATA[mkdir --parents %system.agent.home.dir%/system/jetbrains.maven.runner/maven.repo.local
+          <param name="script.content"><![CDATA[mkdir %system.agent.home.dir%/system/jetbrains.maven.runner/maven.repo.local
 mv maven-repo=>%system.agent.home.dir%/system/jetbrains.maven.runner/maven.repo.local]]></param>
           <param name="teamcity.step.mode" value="default" />
           <param name="use.custom.script" value="true" />

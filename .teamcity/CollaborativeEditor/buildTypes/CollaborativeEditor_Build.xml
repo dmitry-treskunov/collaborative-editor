@@ -44,7 +44,7 @@
     </build-triggers>
     <artifact-dependencies>
       <dependency id="ARTIFACT_DEPENDENCY_1" sourceBuildTypeId="CollaborativeEditor_Build" cleanDestination="false">
-        <revisionRule name="lastFinished" revision="latest.lastFinished" />
+        <revisionRule name="buildTag" revision="mvn-repo.tcbuildtag" />
         <artifact sourcePath="mvn.zip!**=&gt;maven-repo" />
       </dependency>
     </artifact-dependencies>

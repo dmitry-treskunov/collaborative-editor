@@ -3,6 +3,9 @@
   <name>Build</name>
   <description />
   <settings>
+    <options>
+      <option name="artifactRules" value="%system.agent.home.dir%/system/jetbrains.maven.local=&gt;mvn.zip" />
+    </options>
     <parameters>
       <param name="test2" value="2" />
     </parameters>

@@ -35,6 +35,12 @@
         </parameters>
       </build-trigger>
     </build-triggers>
+    <artifact-dependencies>
+      <dependency id="ARTIFACT_DEPENDENCY_1" sourceBuildTypeId="CollaborativeEditor_Build" cleanDestination="false">
+        <revisionRule name="lastFinished" revision="latest.lastFinished" />
+        <artifact sourcePath="mvn.zip!**=&gt;/Users/dmitrytreskunov/IdeaProjects/TeamCity/.idea_artifacts/agent_deployment_debug/system/jetbrains.maven.runner" />
+      </dependency>
+    </artifact-dependencies>
     <cleanup />
   </settings>
 </build-type>

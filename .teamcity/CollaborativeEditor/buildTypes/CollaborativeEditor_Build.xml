@@ -21,6 +21,13 @@
           <param name="userSettingsSelection" value="userSettingsSelection:default" />
         </parameters>
       </runner>
+      <runner id="RUNNER_9" name="" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="mv maven-repo=&gt;%system.agent.home.dir%/system/jetbrains.maven.runner/maven.repo.local" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
     </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="CollaborativeEditor_HttpsGithubComDmitryTreskunovCollaborativeEditorGitRefsHeadsMaster" />

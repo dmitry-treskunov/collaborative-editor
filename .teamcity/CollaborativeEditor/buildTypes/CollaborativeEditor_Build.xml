@@ -6,9 +6,6 @@
     <options>
       <option name="artifactRules" value="%system.agent.home.dir%/system/jetbrains.maven.runner/maven.repo.local=&gt;mvn.zip" />
     </options>
-    <disabled-settings>
-      <setting-ref ref="RUNNER_9" />
-    </disabled-settings>
     <parameters>
       <param name="test2" value="2" />
     </parameters>

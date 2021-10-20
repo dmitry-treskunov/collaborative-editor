@@ -24,7 +24,7 @@ mv maven-repo/* %system.agent.home.dir%/system/jetbrains.maven.runner/maven.repo
           <param name="localRepoScope" value="agent" />
           <param name="maven.path" value="%teamcity.tool.maven.DEFAULT%" />
           <param name="pomLocation" value="pom.xml" />
-          <param name="runnerArgs" value="-Dmaven.test.failure.ignore=true" />
+          <param name="runnerArgs" value="-Dmaven.test.failure.ignore=true -Dmaven.repo.local=%teamcity.agent.work.dir%/.m2" />
           <param name="teamcity.step.mode" value="default" />
           <param name="userSettingsSelection" value="userSettingsSelection:default" />
         </parameters>

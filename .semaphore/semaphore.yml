@@ -13,8 +13,6 @@ blocks:
             - checkout
             - mvn clean compile
   - name: clean test
-    run:
-      when: branch = 'master'
     task:
       jobs:
         - name: 'Job #1'

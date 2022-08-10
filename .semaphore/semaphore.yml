@@ -11,3 +11,13 @@ blocks:
         - name: 'Job #1'
           commands:
             - checkout
+            - mvn clean compile
+  - name: clean test
+    run:
+      when: branch = 'master'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - mvn clean test
+          parallelism: 2

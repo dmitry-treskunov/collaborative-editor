@@ -17,5 +17,6 @@ blocks:
       jobs:
         - name: 'Job #1'
           commands:
+            - checkout
             - mvn clean test
           parallelism: 2
